@@ -22,11 +22,12 @@ until $(curl --output /dev/null --silent --head --fail http://127.0.0.1:5984/_ut
     sleep 1
 done
 
-curl --fail -X PUT http://127.0.0.1:5984/_node/couchdb@localhost/_config/admins/cas -d '"password"'
+curl -X PUT http://127.0.0.1:5984/_node/couchdb@localhost/_config/admins/cas -d '"password"' --fail
+test=$(curl --fail http://127.0.0.1/_membership)
 retVal=$?
-if [ $retVal == 0 ]; then
-    echo "CouchDb admin initialized."
-else
-    echo "CouchDb admin failed to initialize."
+#if [ $retVal == 0 ]; then
+#    echo "CouchDb admin initialized."
+#else
+    echo "CouchDb admin failed to initialize. ${test}"
     exit $retVal
-fi
+#fi
